@@ -20,12 +20,6 @@
 /* uncomment for SECURE mode support */
 /* #define CONFIG_SECURE_BOOT */
 
-/* static ip */
-#define CONFIG_IPADDR "192.168.31.20"
-#define CONFIG_SERVERIP "192.168.31.173"
-#define CONFIG_NETMASK	"255.255.255.0"
-#define CONFIG_GATEWAYIP "192.168.31.1"
-
 #ifdef CONFIG_SECURE_BOOT
 #ifndef CONFIG_CSF_SIZE
 #define CONFIG_CSF_SIZE 0x4000
@@ -95,6 +89,7 @@
 
 #define CONFIG_SYS_MMC_IMG_LOAD_PART	1
 
+/* 分区信息 */
 #ifdef CONFIG_SYS_BOOT_NAND
 #define CONFIG_MFG_NAND_PARTITION "mtdparts=gpmi-nand:64m(boot),16m(kernel),16m(dtb),1m(misc),-(rootfs) "
 #else
@@ -207,6 +202,7 @@
 					"echo WARNING: Could not determine dtb to use; fi; " \
 			"fi;\0" \
 
+/* boot 命令 */
 #define CONFIG_BOOTCOMMAND \
 	   "run findfdt;" \
 	   "mmc dev ${mmcdev};" \

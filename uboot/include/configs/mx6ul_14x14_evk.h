@@ -23,6 +23,12 @@
 /* uncomment for BEE support, needs to enable CONFIG_CMD_FUSE */
 /* #define CONFIG_CMD_BEE */
 
+/* static ip */
+#define CONFIG_IPADDR "192.168.31.20"
+#define CONFIG_SERVERIP "192.168.31.173"
+#define CONFIG_NETMASK	"255.255.255.0"
+#define CONFIG_GATEWAYIP "192.168.31.1"
+
 #ifdef CONFIG_SECURE_BOOT
 #ifndef CONFIG_CSF_SIZE
 #define CONFIG_CSF_SIZE 0x4000
