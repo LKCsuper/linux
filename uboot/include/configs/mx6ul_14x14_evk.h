@@ -29,12 +29,6 @@
 #define CONFIG_NETMASK	"255.255.255.0"
 #define CONFIG_GATEWAYIP "192.168.31.1"
 
-/* bootcmd */
-#define CONFIG_BOOTCOMMAND	""
-
-/* bootargs */
-#define CONFIG_BOOTARGS ""
-
 #ifdef CONFIG_SECURE_BOOT
 #ifndef CONFIG_CSF_SIZE
 #define CONFIG_CSF_SIZE 0x4000
@@ -216,6 +210,8 @@
 					"echo WARNING: Could not determine dtb to use; fi; " \
 			"fi;\0" \
 
+/* bootcmd */
+#if 0
 #define CONFIG_BOOTCOMMAND \
 	   "run findfdt;" \
 	   "mmc dev ${mmcdev};" \
@@ -230,6 +226,27 @@
 		   "fi; " \
 	   "else run netboot; fi"
 #endif
+#else
+
+/*
+	[切换为设备1] mmc dev 1 
+	[从第1个存储设备的第1个分区的根目录读出uImage文件到内存地址0x80800000 拷贝镜像] fatload mmc 1:1 0x80800000 zImage 
+	[从第1个存储设备的第1个分区的根目录读出uImage文件到内存地址0x83000000 拷贝设备树] fatload mmc 1:1 0x83000000 imx6ull-alientek-emmc.dtb;
+	[bootz ${kernel_load_address} - ${devicetree_load_address} 启动镜像位置 设备树位置] bootz 0x80800000 - 0x83000000;
+*/
+#define CONFIG_BOOTCOMMAND \ 
+		"mmc dev 1;" \
+		"fatload mmc 1:1 0x80800000 zImage;" \
+		"fatload mmc 1:1 0x83000000 imx6ull-alientek-emmc.dtb;" \
+		"bootz 0x80800000 - 0x83000000;"
+#endif
+
+/* bootargs 
+console 115200【调试选择 串口 屏幕等等 波特率】
+root 【根文件位置】
+rootwait rw 【等待mmc设置初始化完成之后再挂载】
+*/
+#define CONFIG_BOOTARGS "console=ttymxc0,115200 root=/dev/mmcblk1p2 rootwait rw'"
 
 /* Miscellaneous configurable options */
 #define CONFIG_CMD_MEMTEST
